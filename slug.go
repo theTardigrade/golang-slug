@@ -21,6 +21,7 @@ func GetWithOptions(text string, options *Options) (slug string) {
 	}
 
 	replacement := options.Replacement
+
 	if replacement != defaultOptionsReplacement {
 		replacement = format(replacement)
 
@@ -34,7 +35,7 @@ func GetWithOptions(text string, options *Options) (slug string) {
 	slug = regexpReplace.ReplaceAllString(slug, replacement)
 	slug = strings.TrimSuffix(slug, replacement)
 
-	if maxLen := options.MaxLen; maxLen > 0 && len(slug) > maxLen {
+	if maxLen := options.MaxLen; len(slug) > maxLen {
 		slug = slug[:maxLen]
 	}
 
