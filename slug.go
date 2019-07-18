@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	regexpReplace = regexp.MustCompile(`^[^a-z0-9]+$`)
+	regexpReplace = regexp.MustCompile(`[^a-z0-9]+`)
 )
 
 func Get(text string) (slug string) {
