@@ -31,7 +31,6 @@ func GetWithOptions(text string, options *Options) (slug string) {
 	}
 
 	slug = format(text)
-
 	slug = regexpReplace.ReplaceAllString(slug, replacement)
 
 	if maxLen := options.MaxLen; len(slug) > maxLen {
@@ -44,9 +43,10 @@ func GetWithOptions(text string, options *Options) (slug string) {
 }
 
 func format(text string) string {
-	return strings.ToLower(
-		unidecode.Unidecode(
-			strings.TrimSpace(text),
-		),
-	)
+	text = strings.TrimSpace(text)
+	text = strings.ReplaceAll(text, `'`, "")
+	text = unidecode.Unidecode(text)
+	text = strings.ToLower(text)
+
+	return text
 }
