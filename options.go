@@ -1,8 +1,9 @@
 package slug
 
 type Options struct {
-	Replacement string
-	MaxLen      int
+	Replacement   string
+	MaxLen        int
+	RunesToRemove []rune
 }
 
 const (
@@ -10,9 +11,16 @@ const (
 	defaultOptionsMaxLen      = 128
 )
 
+func defaultOptionsRunesToRemove() []rune {
+	return []rune{
+		'\'',
+	}
+}
+
 var (
 	DefaultOptions = Options{
-		Replacement: defaultOptionsReplacement,
-		MaxLen:      defaultOptionsMaxLen,
+		Replacement:   defaultOptionsReplacement,
+		MaxLen:        defaultOptionsMaxLen,
+		RunesToRemove: defaultOptionsRunesToRemove(),
 	}
 )

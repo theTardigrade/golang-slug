@@ -3,6 +3,7 @@ package slug
 import (
 	"regexp"
 	"strings"
+	"unicode"
 
 	"github.com/rainycape/unidecode"
 )
@@ -23,14 +24,14 @@ func GetWithOptions(text string, options *Options) (slug string) {
 	replacement := options.Replacement
 
 	if replacement != defaultOptionsReplacement {
-		replacement = format(replacement)
+		replacement = format(replacement, options)
 
 		if replacement == "" || !regexpReplace.MatchString(replacement) {
 			replacement = DefaultOptions.Replacement
 		}
 	}
 
-	slug = format(text)
+	slug = format(text, options)
 	slug = regexpReplace.ReplaceAllString(slug, replacement)
 
 	if maxLen := options.MaxLen; len(slug) > maxLen {
@@ -42,8 +43,30 @@ func GetWithOptions(text string, options *Options) (slug string) {
 	return
 }
 
-func format(text string) string {
+func format(text string, options *Options) string {
 	text = strings.TrimSpace(text)
+
+	if len(options.RunesToRemove) > 0 {
+		var builder strings.Builder
+
+		for _, r := range text {
+			shouldAdd := true
+
+			for _, r2 := range options.RunesToRemove {
+				if r2 == r {
+					shouldAdd = false
+					break
+				}
+			}
+
+			if shouldAdd {
+				builder.WriteRune(unicode.ToLower(r))
+			}
+		}
+
+		text = builder.String()
+	}
+
 	text = strings.ReplaceAll(text, `'`, "")
 	text = unidecode.Unidecode(text)
 	text = strings.ToLower(text)
