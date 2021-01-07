@@ -1,14 +1,14 @@
 package slug
 
 type Options struct {
-	Replacement   string
 	MaxLen        int
+	Replacement   string
 	RunesToRemove []rune
 }
 
 const (
-	defaultOptionsReplacement = "-"
 	defaultOptionsMaxLen      = 128
+	defaultOptionsReplacement = "-"
 )
 
 func defaultOptionsRunesToRemove() []rune {
@@ -19,8 +19,8 @@ func defaultOptionsRunesToRemove() []rune {
 
 var (
 	DefaultOptions = Options{
-		Replacement:   defaultOptionsReplacement,
 		MaxLen:        defaultOptionsMaxLen,
+		Replacement:   defaultOptionsReplacement,
 		RunesToRemove: defaultOptionsRunesToRemove(),
 	}
 )
