@@ -71,7 +71,6 @@ func format(text string, options *Options) string {
 		text = strings.ToLower(text)
 	}
 
-	text = strings.ReplaceAll(text, `'`, "")
 	text = unidecode.Unidecode(text)
 
 	return text
