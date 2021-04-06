@@ -16,13 +16,13 @@ import (
 )
 
 func main() {
-	s := slug.GetWithOptions("!=this is a test=!", &slug.Options{
-		MaxLen:        12,
-		WholeWord:     false,
+	s := slug.GetWithOptions("!=this is the text's slug=!", &slug.Options{
+		WholeWords:    false,
+		MaxLen:        20,
 		Replacement:   "_",
-		RunesToRemove: []rune{'=', '!'},
+		RunesToRemove: slug.DefaultOptions.RunesToRemove,
 	})
 
-	fmt.Println(s) // prints "this_is_a_te"
+	fmt.Println(s) // prints "this_is_the_texts_sl"
 }
 ```
