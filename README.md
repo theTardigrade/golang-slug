@@ -18,6 +18,7 @@ import (
 func main() {
 	s := slug.GetWithOptions("!=this is a test=!", &slug.Options{
 		MaxLen:        12,
+		WholeWord:     false,
 		Replacement:   "_",
 		RunesToRemove: []rune{'=', '!'},
 	})
