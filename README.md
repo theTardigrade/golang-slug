@@ -1,8 +1,4 @@
-# slug
-
-## Support
-
-Please consider donating at PayPal: [https://www.paypal.me/jismithpp](https://www.paypal.me/jismithpp)
+# golang-slug
 
 ## Example
 
