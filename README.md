@@ -22,3 +22,7 @@ func main() {
 	fmt.Println(s) // prints "this_is_the_texts_sl"
 }
 ```
+
+## Support
+
+If you use this package, or find any value in it, please consider donating at [Ko-fi](https://ko-fi.com/thetardigrade).
