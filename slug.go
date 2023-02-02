@@ -12,11 +12,11 @@ var (
 	regexpWordAcceptedRune = regexp.MustCompile(`[a-z0-9]+`)
 )
 
-func Get(text string) (slug string) {
+func Get(text string) (slug string, err error) {
 	return GetWithOptions(text, &DefaultOptions)
 }
 
-func GetWithOptions(text string, options *Options) (slug string) {
+func GetWithOptions(text string, options *Options) (slug string, err error) {
 	if options == nil {
 		options = &DefaultOptions
 	}
@@ -29,6 +29,10 @@ func GetWithOptions(text string, options *Options) (slug string) {
 	}
 
 	slug = format(text, options)
+
+	if options.Unique {
+		slug, err = uniqueFormat(slug, options)
+	}
 
 	return
 }
