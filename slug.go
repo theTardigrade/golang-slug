@@ -13,17 +13,17 @@ var (
 )
 
 func Get(text string) (slug string, err error) {
-	return GetWithOptions(text, &DefaultOptions)
+	return GetWithOptions(text, NewOptionsWithDefaults())
 }
 
 func GetWithOptions(text string, options *Options) (slug string, err error) {
 	if options == nil {
-		options = &DefaultOptions
+		options = NewOptionsWithDefaults()
 	}
 
-	if replacement := options.Replacement; replacement != defaultOptionsReplacement {
+	if replacement := options.Replacement; replacement != optionsDefaultReplacement {
 		if replacement == "" || regexpWordAcceptedRune.MatchString(replacement) {
-			replacement = DefaultOptions.Replacement
+			replacement = optionsDefaultReplacement
 			options.Replacement = replacement
 		}
 	}

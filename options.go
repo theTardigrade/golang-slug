@@ -10,26 +10,26 @@ type Options struct {
 }
 
 const (
-	defaultOptionsMaxLen         = 128
-	defaultOptionsReplacement    = "-"
-	defaultOptionsWholeWords     = true
-	defaultOptionsUnique         = false
-	defaultOptionsUniqueAttempts = 1 << 16
+	optionsDefaultMaxLen         = 128
+	optionsDefaultReplacement    = "-"
+	optionsDefaultWholeWords     = true
+	optionsDefaultUnique         = false
+	optionsDefaultUniqueAttempts = 1 << 16
 )
 
-func defaultOptionsRunesToRemove() []rune {
+func optionsDefaultRunesToRemove() []rune {
 	return []rune{
 		'\'',
 	}
 }
 
-var (
-	DefaultOptions = Options{
-		MaxLen:         defaultOptionsMaxLen,
-		Replacement:    defaultOptionsReplacement,
-		RunesToRemove:  defaultOptionsRunesToRemove(),
-		WholeWords:     defaultOptionsWholeWords,
-		Unique:         defaultOptionsUnique,
-		UniqueAttempts: defaultOptionsUniqueAttempts,
+func NewOptionsWithDefaults() *Options {
+	return &Options{
+		MaxLen:         optionsDefaultMaxLen,
+		Replacement:    optionsDefaultReplacement,
+		RunesToRemove:  optionsDefaultRunesToRemove(),
+		WholeWords:     optionsDefaultWholeWords,
+		Unique:         optionsDefaultUnique,
+		UniqueAttempts: optionsDefaultUniqueAttempts,
 	}
-)
+}

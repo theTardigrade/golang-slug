@@ -16,11 +16,12 @@ import (
 )
 
 func main() {
+	defaultOptions := slug.NewOptionsWithDefaults()
 	result, err := slug.GetWithOptions("!=this is the text's slug=!", &slug.Options{
 		WholeWords:    false,
 		MaxLen:        20,
 		Replacement:   "_",
-		RunesToRemove: slug.DefaultOptions.RunesToRemove,
+		RunesToRemove: defaultOptions.RunesToRemove,
 	})
 	if err != nil {
 		panic(err)
