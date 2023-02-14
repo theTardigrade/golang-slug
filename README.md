@@ -12,14 +12,17 @@ import (
 )
 
 func main() {
-	s := slug.GetWithOptions("!=this is the text's slug=!", &slug.Options{
+	result, err := slug.GetWithOptions("!=this is the text's slug=!", &slug.Options{
 		WholeWords:    false,
 		MaxLen:        20,
 		Replacement:   "_",
 		RunesToRemove: slug.DefaultOptions.RunesToRemove,
 	})
+	if err != nil {
+		panic(err)
+	}
 
-	fmt.Println(s) // prints "this_is_the_texts_sl"
+	fmt.Println(result) // prints "this_is_the_texts_sl"
 }
 ```
 
