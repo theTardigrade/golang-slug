@@ -1,5 +1,9 @@
 # golang-slug
 
+This Go package makes it easy to generate [slugs](https://en.wikipedia.org/wiki/Clean_URL#Slug) from human-readable text.
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/theTardigrade/golang-slug.svg)](https://pkg.go.dev/github.com/theTardigrade/golang-slug) [![Go Report Card](https://goreportcard.com/badge/github.com/theTardigrade/golang-slug)](https://goreportcard.com/report/github.com/theTardigrade/golang-slug)
+
 ## Example
 
 ```golang
@@ -28,4 +32,6 @@ func main() {
 
 ## Support
 
-If you use this package, or find any value in it, please consider donating at [Ko-fi](https://ko-fi.com/thetardigrade).
+If you use this package, or find any value in it, please consider donating:
+
+![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S2EIRL0)
