@@ -63,7 +63,7 @@ func format(text string, options *Options) string {
 			} else if wordBreak {
 				if len(currentWord) > 0 {
 					words = append(words, currentWord)
-					currentWord = currentWord[:0]
+					currentWord = []rune{}
 				}
 				wordBreak = false
 			}
