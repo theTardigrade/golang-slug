@@ -78,6 +78,10 @@ func format(text string, options *Options) string {
 		words = append(words, currentWord)
 	}
 
+	return buildFromWords(words, options)
+}
+
+func buildFromWords(words [][]rune, options *Options) string {
 	var builder strings.Builder
 
 	replacement := options.Replacement
