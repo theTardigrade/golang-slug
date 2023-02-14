@@ -63,7 +63,7 @@ func format(text string, options *Options) string {
 			} else if wordBreak {
 				if len(currentWord) > 0 {
 					words = append(words, currentWord)
-					currentWord = []rune{}
+					currentWord = currentWord[:0]
 				}
 				wordBreak = false
 			}
@@ -76,7 +76,6 @@ func format(text string, options *Options) string {
 
 	if len(currentWord) > 0 {
 		words = append(words, currentWord)
-		currentWord = []rune{}
 	}
 
 	var builder strings.Builder
