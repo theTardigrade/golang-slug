@@ -85,7 +85,11 @@ func buildFromWords(words [][]rune, options *Options) string {
 	var builder strings.Builder
 
 	if options.MaxLen > 0 {
-		buildFromWordsHandlerWithMaxLen(words, options, &builder)
+		if options.WholeWords {
+			buildFromWordsHandlerWithMaxLenAndWithWholeWords(words, options, &builder)
+		} else {
+			buildFromWordsHandlerWithMaxLenAndWithoutWholeWords(words, options, &builder)
+		}
 	} else {
 		buildFromWordsHandlerWithoutMaxLen(words, options, &builder)
 	}
@@ -93,61 +97,72 @@ func buildFromWords(words [][]rune, options *Options) string {
 	return builder.String()
 }
 
-func buildFromWordsHandlerWithMaxLen(words [][]rune, options *Options, builder *strings.Builder) {
+func buildFromWordsHandlerWithMaxLenAndWithWholeWords(
+	words [][]rune, options *Options, builder *strings.Builder,
+) {
 	maxLen := options.MaxLen
-	wholeWords := options.WholeWords
 	replacement := options.Replacement
 	replacementLen := len(replacement)
 	l := 0
 
 	for i, w := range words {
-		wLen := len(w)
-
-		if wholeWords {
-			if i > 0 {
-				if l+replacementLen+wLen > maxLen {
-					break
-				}
-				builder.WriteString(replacement)
-				l += replacementLen
-			} else {
-				if l+wLen > maxLen {
-					break
-				}
+		if i > 0 {
+			if l+replacementLen+len(w) > maxLen {
+				break
 			}
+
+			builder.WriteString(replacement)
+			l += replacementLen
+		} else {
+			if l+len(w) > maxLen {
+				break
+			}
+		}
+
+		for _, r := range w {
+			builder.WriteRune(r)
+			l++
+		}
+	}
+}
+
+func buildFromWordsHandlerWithMaxLenAndWithoutWholeWords(
+	words [][]rune, options *Options, builder *strings.Builder,
+) {
+	maxLen := options.MaxLen
+	replacement := options.Replacement
+	replacementLen := len(replacement)
+	l := 0
+
+	for i, w := range words {
+		if i > 0 {
+			if l+replacementLen+1 > maxLen {
+				break
+			}
+
+			builder.WriteString(replacement)
+			l += replacementLen
+		} else {
+			if l+1 > maxLen {
+				break
+			}
+		}
+
+		if l+len(w) <= maxLen {
 			for _, r := range w {
 				builder.WriteRune(r)
 				l++
 			}
 		} else {
-			if i > 0 {
-				if l+replacementLen+1 > maxLen {
+			deltaLen := maxLen - l
+
+			for i, r := range w {
+				if i == deltaLen {
 					break
 				}
-				builder.WriteString(replacement)
-				l += replacementLen
-			} else {
-				if l+1 > maxLen {
-					break
-				}
-			}
 
-			if l+wLen <= maxLen {
-				for _, r := range w {
-					builder.WriteRune(r)
-					l++
-				}
-			} else {
-				deltaLen := maxLen - l
-
-				for i, r := range w {
-					if i == deltaLen {
-						break
-					}
-
-					builder.WriteRune(r)
-					l++
-				}
+				builder.WriteRune(r)
+				l++
 			}
 		}
 	}
