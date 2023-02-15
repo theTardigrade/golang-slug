@@ -41,7 +41,12 @@ func format(text string, options *Options) string {
 	text = strings.TrimSpace(text)
 	text = unidecode.Unidecode(text)
 
-	var words [][]rune
+	words := wordsFromText(text, options)
+
+	return buildFromWords(words, options)
+}
+
+func wordsFromText(text string, options *Options) (words [][]rune) {
 	wordBreak := true
 	currentWord := []rune{}
 
@@ -78,7 +83,7 @@ func format(text string, options *Options) string {
 		words = append(words, currentWord)
 	}
 
-	return buildFromWords(words, options)
+	return
 }
 
 func buildFromWords(words [][]rune, options *Options) string {
