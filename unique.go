@@ -1,7 +1,6 @@
 package slug
 
 import (
-	"errors"
 	"strconv"
 	"sync"
 )
@@ -11,12 +10,7 @@ var (
 	uniqueCacheMutex sync.Mutex
 )
 
-var (
-	ErrUniqueAttempts = errors.New("too many unique slugs attempted with no success")
-	ErrUniqueLength   = errors.New("not enough length to make all unique attempts")
-)
-
-func uniqueFormat(slug string, options *Options) (uniqueSlug string, err error) {
+func uniqueFormatText(slug string, options *Options) (uniqueSlug string, err error) {
 	defer uniqueCacheMutex.Unlock()
 	uniqueCacheMutex.Lock()
 
@@ -56,7 +50,7 @@ func uniqueFormat(slug string, options *Options) (uniqueSlug string, err error) 
 			}
 		}
 
-		potentialSlug = format(slug[:slugLen]+options.Replacement+suffix, options)
+		potentialSlug = formatText(slug[:slugLen]+options.Replacement+suffix, options)
 	}
 
 	err = ErrUniqueAttempts

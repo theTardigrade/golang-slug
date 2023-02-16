@@ -17,6 +17,7 @@ import (
 
 func main() {
 	defaultOptions := slug.NewOptionsWithDefaults()
+
 	result, err := slug.GetWithOptions("!=this is the text's slug=!", &slug.Options{
 		WholeWords:    false,
 		MaxLen:        20,
@@ -27,7 +28,19 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(result) // prints "this_is_the_texts_sl"
+	// prints "this_is_the_texts_sl"
+	fmt.Println(result)
+
+	result, err = slug.GetRandomWithOptions(&slug.Options{
+		MaxLen: 20,
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	// prints slug made up of twenty randomly selected
+	// uppercase letters, lowercase letters and digits
+	fmt.Println(result)
 }
 ```
 

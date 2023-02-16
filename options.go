@@ -33,3 +33,18 @@ func NewOptionsWithDefaults() *Options {
 		UniqueAttempts: optionsDefaultUniqueAttempts,
 	}
 }
+
+func initOptions(options *Options) *Options {
+	if options == nil {
+		options = NewOptionsWithDefaults()
+	}
+
+	if replacement := options.Replacement; replacement != optionsDefaultReplacement {
+		if replacement == "" || formatWordAcceptedRuneRegexp.MatchString(replacement) {
+			replacement = optionsDefaultReplacement
+			options.Replacement = replacement
+		}
+	}
+
+	return options
+}

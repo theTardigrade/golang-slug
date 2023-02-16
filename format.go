@@ -9,44 +9,19 @@ import (
 )
 
 var (
-	regexpWordAcceptedRune = regexp.MustCompile(`[a-z0-9]+`)
+	formatWordAcceptedRuneRegexp = regexp.MustCompile(`[a-z0-9]+`)
 )
 
-func Get(text string) (slug string, err error) {
-	return GetWithOptions(text, NewOptionsWithDefaults())
-}
-
-func GetWithOptions(text string, options *Options) (slug string, err error) {
-	if options == nil {
-		options = NewOptionsWithDefaults()
-	}
-
-	if replacement := options.Replacement; replacement != optionsDefaultReplacement {
-		if replacement == "" || regexpWordAcceptedRune.MatchString(replacement) {
-			replacement = optionsDefaultReplacement
-			options.Replacement = replacement
-		}
-	}
-
-	slug = format(text, options)
-
-	if options.Unique {
-		slug, err = uniqueFormat(slug, options)
-	}
-
-	return
-}
-
-func format(text string, options *Options) string {
+func formatText(text string, options *Options) string {
 	text = strings.TrimSpace(text)
 	text = unidecode.Unidecode(text)
 
-	words := wordsFromText(text, options)
+	words := formatWordsFromText(text, options)
 
-	return buildFromWords(words, options)
+	return formatBuildFromWords(words, options)
 }
 
-func wordsFromText(text string, options *Options) (words [][]rune) {
+func formatWordsFromText(text string, options *Options) (words [][]rune) {
 	wordBreak := true
 	currentWord := []rune{}
 
@@ -62,7 +37,7 @@ func wordsFromText(text string, options *Options) (words [][]rune) {
 		}
 
 		if shouldAdd {
-			if b := []byte(string(r)); !regexpWordAcceptedRune.Match(b) {
+			if b := []byte(string(r)); !formatWordAcceptedRuneRegexp.Match(b) {
 				shouldAdd = false
 				wordBreak = true
 			} else if wordBreak {
@@ -86,23 +61,23 @@ func wordsFromText(text string, options *Options) (words [][]rune) {
 	return
 }
 
-func buildFromWords(words [][]rune, options *Options) string {
+func formatBuildFromWords(words [][]rune, options *Options) string {
 	var builder strings.Builder
 
 	if options.MaxLen > 0 {
 		if options.WholeWords {
-			buildFromWordsHandlerWithMaxLenAndWithWholeWords(words, options, &builder)
+			formatBuildFromWordsHandlerWithMaxLenAndWithWholeWords(words, options, &builder)
 		} else {
-			buildFromWordsHandlerWithMaxLenAndWithoutWholeWords(words, options, &builder)
+			formatBuildFromWordsHandlerWithMaxLenAndWithoutWholeWords(words, options, &builder)
 		}
 	} else {
-		buildFromWordsHandlerWithoutMaxLen(words, options, &builder)
+		formatBuildFromWordsHandlerWithoutMaxLen(words, options, &builder)
 	}
 
 	return builder.String()
 }
 
-func buildFromWordsHandlerWithMaxLenAndWithWholeWords(
+func formatBuildFromWordsHandlerWithMaxLenAndWithWholeWords(
 	words [][]rune, options *Options, builder *strings.Builder,
 ) {
 	maxLen := options.MaxLen
@@ -131,7 +106,7 @@ func buildFromWordsHandlerWithMaxLenAndWithWholeWords(
 	}
 }
 
-func buildFromWordsHandlerWithMaxLenAndWithoutWholeWords(
+func formatBuildFromWordsHandlerWithMaxLenAndWithoutWholeWords(
 	words [][]rune, options *Options, builder *strings.Builder,
 ) {
 	maxLen := options.MaxLen
@@ -173,7 +148,9 @@ func buildFromWordsHandlerWithMaxLenAndWithoutWholeWords(
 	}
 }
 
-func buildFromWordsHandlerWithoutMaxLen(words [][]rune, options *Options, builder *strings.Builder) {
+func formatBuildFromWordsHandlerWithoutMaxLen(
+	words [][]rune, options *Options, builder *strings.Builder,
+) {
 	replacement := options.Replacement
 
 	for i, w := range words {
